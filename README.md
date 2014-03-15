@@ -26,7 +26,7 @@ export default Ember.ObjectController.extend({
       return required(value);
     },
     slug: function(value) {
-      return required(value)
+      return required(value, "Slug can not be empty.")
         .then(function(value){
           return ajax('/posts/' + value).then(function(){
             // request returns data, therefore object exists and slug is not available
@@ -40,4 +40,52 @@ export default Ember.ObjectController.extend({
   })
 
 });
+```
+
+# How it works
+
+The computed property evaluates to the result of the validation. The above example would produce
+
+```javascript
+
+controller.setProperties({
+  title: 'Hello World',
+  slug: ''
+  })
+
+console.log(controller.get('validation'));
+{
+  validation: {
+    title: {
+      isPassed: true,
+      value: 'Hello World'
+    },
+    slug: {
+      isPassed: false,
+      error: 'Slug can not be empty.'
+    },
+    isPassed: false
+  }
+}
+```
+
+You can easily bind to this validation object in the template
+
+```html
+<ul>
+  <li>
+    <label {{bind-attr for="titleField.elementId"}}>Title</label>
+    {{input value=title viewName="titleField"}}
+    {{#if validation.title.error}}<p class="error">{{validation.title.error}}</p>{{/if}}
+  </li>
+  <li>
+    <label {{bind-attr for="slugField.elementId"}}>Code</label>
+    {{input value=code viewName="slugField"}}
+    {{#if validation.slug.error}}<p class="error">{{validation.slug.error}}</p>{{/if}}
+  </li>
+  <ul>
+</ul>
+<br>
+<button {{bind-attr disabled=isNotValid}}>Update</button>
+
 ```
