@@ -2,7 +2,12 @@ import hashSettled from 'appkit/utils/hash-settled';
 
 var get = Em.get;
 
-function validationComputedPropertyMacro (target, rules) {
+function validationComputedPropertyMacro (target, rules, options) {
+
+  options = Em.merge({
+    spacing: 200 // throttle spacing
+  }, options)
+
   // create array of dependent keys
   var dependentKeys = prefixKeys(target, rules);
 

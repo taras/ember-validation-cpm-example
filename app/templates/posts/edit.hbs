@@ -2,10 +2,12 @@
   <li>
     <label {{bind-attr for="titleField.elementId"}}>Title</label>
     {{input value=title viewName="titleField"}}
+    {{#if validation.title.error}}<p class="error">{{validation.title.error}}</p>{{/if}}
   </li>
   <li>
     <label {{bind-attr for="codeField.elementId"}}>Code</label>
     {{input value=code viewName="codeField"}}
+    {{#if validation.code.error}}<p class="error">{{validation.code.error}}</p>{{/if}}
   </li>
   <ul>
 </ul>
