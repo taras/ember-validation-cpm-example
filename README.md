@@ -7,6 +7,9 @@ It allows to do sync and async validations. It focuses on being expressive and P
 It was designed to work with an ObjectController and is BufferedProxy compatible. Validation rules can
 be chained together with ```.then()```. You can return a custom error message with ```Em.RSVP.reject('your message')```
 
+Validation rules take value as an argument and return a Promise that resolves to a value. If the Promise is rejected,
+the validation will fail and reason will be the error. You ```.then()``` Promise to modify the result of the validation.
+
 ## Setup
 
 ```javascript
