@@ -129,6 +129,11 @@ module.exports = function(grunt) {
   grunt.registerTask('test:server', "Alias to `testem:run:basic`. Be sure to install testem first using `npm install -g testem`", [
                      'testem:run:basic' ]);
 
+  grunt.registerTask('update', "Update Github Pages with latest code.",
+                    ['build:debug',
+                     'copy:assemble',
+                     'gh-pages:build'])
+
   // Worker tasks
   // =================================
 
@@ -220,7 +225,7 @@ module.exports = function(grunt) {
                      'preprocess:indexHTMLDebugApp',
                      'preprocess:indexHTMLDebugTests'
                      ]);
-  
+
   grunt.registerTask('createResultDirectory', function() {
     grunt.file.mkdir('tmp/result');
   });
