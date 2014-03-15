@@ -39,12 +39,12 @@ export default Ember.Mixin.create({
     if (current === value) {
       delete buffer[key];
       if (empty(buffer)) {
-        this.set("hasBufferedChanges", false);
+        this.clearBuffer();
       }
     } else {
       // make sure that key is model attribute
       if (get(this, 'bufferable').contains(key)) {
-        buffer[key] = value;
+        set(buffer, key, value);
         this.set("hasBufferedChanges", true);
       } else {
         this._super(key, value);

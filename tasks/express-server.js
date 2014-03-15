@@ -52,13 +52,11 @@ module.exports = function(grunt) {
       app.use(static({ directory: 'public' }));
       app.use(static({ urlRoot: '/tests', directory: 'tests' })); // For test-helper.js and test-loader.js
       app.use(static({ directory: 'tmp/result' }));
-      app.use(static({ file: 'tmp/result/index.html', ignoredFileExtensions: /\.\w{1,5}$/ })); // Gotta catch 'em all
     } else {
       // For `expressServer:dist`
 
       app.use(lock);
       app.use(static({ directory: 'dist' }));
-      app.use(static({ file: 'dist/index.html', ignoredFileExtensions: /\.\w{1,5}$/ })); // Gotta catch 'em all
     }
 
     var port = parseInt(process.env.PORT || 8000, 10);
