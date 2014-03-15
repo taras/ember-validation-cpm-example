@@ -35,6 +35,9 @@ export default Ember.ObjectController.extend(BufferedProxy, {
           });
         });
       }
+    },
+    email: function(value) {
+      
     }
   })
 
