@@ -10,14 +10,13 @@ be chained together with ```.then()```. You can return a custom error message wi
 ## Setup
 
 ```javascript
-import BufferedProxy from 'appkit/mixins/controllers/buffered-proxy';
 import validation from 'appkit/utils/validation';
 import {
   required
 } from 'appkit/utils/validations';
 import ajax from 'appkit/utils/ajax';
 
-export default Ember.ObjectController.extend(BufferedProxy, {
+export default Ember.ObjectController.extend({
 
   isValid: Em.computed.alias('validation.isPassed'),
   isNotValid: Em.computed.not('isValid'),
