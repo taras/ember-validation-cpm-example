@@ -47,7 +47,7 @@ export default Ember.ObjectController.extend({
 });
 ```
 
-# How it works
+## How it works
 
 The computed property evaluates to the result of the validation. The above example would produce
 
@@ -91,3 +91,7 @@ You can easily bind to this validation object in the template
 <button {{bind-attr disabled=isNotValid}}>Update</button>
 
 ```
+
+## Caveats
+
+The validations are triggered on every change. Need to implement some kind of debounce mechanism.
