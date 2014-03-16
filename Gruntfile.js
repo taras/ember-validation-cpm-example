@@ -132,7 +132,7 @@ module.exports = function(grunt) {
   grunt.registerTask('update', "Update Github Pages with latest code.",
                     ['build:debug',
                      'copy:assemble',
-                     'gh-pages:build'])
+                     'gh-pages:build']);
 
   // Worker tasks
   // =================================

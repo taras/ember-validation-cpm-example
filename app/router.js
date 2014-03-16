@@ -4,7 +4,7 @@ Router.map(function() {
   this.route('component-test');
   this.route('helper-test');
   this.resource('posts', function() {
-    this.route('post', {path: ':slug});
+    this.route('post', {path: ':slug'});
     this.route('edit', {path: ':slug/edit'});
   });
 });
