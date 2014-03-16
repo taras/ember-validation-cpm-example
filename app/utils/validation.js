@@ -4,6 +4,10 @@ var get = Em.get;
 
 function validationComputedPropertyMacro (target, rules, options) {
 
+  options = Em.merge({
+    delay: 200
+  }, options)
+
   // create array of dependent keys
   var dependentKeys = prefixKeys(target, rules);
 
@@ -15,24 +19,53 @@ function validationComputedPropertyMacro (target, rules, options) {
     isPassed: Em.computed.and.apply(this, isPassedKeys)
   });
 
-  function buildValidationPromise(){
+  function buildValidationPromise(key, value){
     var _this = this,
-        promises = {};
+        promises = {},
+        cacheKey = cacheFor(key),
+        cache, result;
 
-    // create an array of promises for
-    Em.keys(rules).forEach(function(propName){
-      var callback = rules[propName],
-          value = get(_this, combine(target, propName));
+    if (arguments.length === 2) {
+      // setting the property by setting its cache
+      this.set(cacheKey, value);
+      result = value;
+    } else {
+      // invalidated when one of the values changes
+      cache = get(this, cacheKey);
+      if (cache) { // cache exists
+        if (cache.timer) {
+          Em.run.cancel(cache.timer);
+        }
+        cache.timer = Em.run.later(this, recalculate, options.delay);
+        result = cache;
+      } else {
+        result = recalculate.apply(this);
+      }
+    }
 
-      // coerce the return values into being a promise
-      promises[propName] = new Em.RSVP.Promise(function(resolve) {
-        resolve(callback.call(_this, value));
+    function recalculate() {
+      // create an array of promises for
+      Em.keys(rules).forEach(function(propName){
+        var callback = rules[propName],
+            value = get(_this, combine(target, propName));
+
+        // coerce the return values into being a promise
+        promises[propName] = new Em.RSVP.Promise(function(resolve) {
+          resolve(callback.call(_this, value));
+        });
       });
-    });
 
-    return ValidationResponse.create({
-      promise: hashSettled(promises).then(transform)
-    });
+      var result = ValidationResponse.create({
+        promise: hashSettled(promises).then(transform)
+      });
+
+      // set this property which will set the cache
+      this.set(key, result);
+
+      return result;
+    }
+
+    return result;
   }
 
   return applyComputed(dependentKeys, buildValidationPromise);
@@ -63,6 +96,10 @@ function transform(response) {
 
 function combine(target, property) {
   return target + '.' + property;
+}
+
+function cacheFor(key) {
+  return '__validationCacheFor'+key;
 }
 
 export default validationComputedPropertyMacro;

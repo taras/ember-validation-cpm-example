@@ -1,8 +1,11 @@
-var resolve = Em.RSVP.resolve,
-    reject = Em.RSVP.reject;
+var resolve = Em.RSVP.resolve;
 
 export function required(value, message) {
-  return ($.trim(value).length > 0) ? resolve(value) : reject(message || "Must not be empty.");
+  if ($.trim(value).length > 0){
+    return resolve(value);
+  } else {
+    throw message || "Must not be empty.";
+  }
 }
 
 var urlRegex = /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
@@ -17,7 +20,10 @@ export var number = format(numberRegex, "Must be a number");
 
 export function date(value, message) {
   var passed = !/Invalid|NaN/.test(new Date(value).toString());
-  return (passed) ? resolve(value) : reject(message || "Must be a valid date.");
+  if (passed) {
+    return resolve(value);
+  }
+  throw message || "Must be a valid date.";
 }
 
 export function creditcard(value, message) {
@@ -45,12 +51,18 @@ export function creditcard(value, message) {
 
   var passed = (nCheck % 10) === 0;
 
-  return (passed) ? resolve(value) : reject(message || "");
+  if (passed) {
+    return resolve(value);
+  }
+  throw message || "This is not a valid credit card format";
 }
 
 function format(regex, defaultMessage) {
   return function(value, message) {
     var passed = regex.test(value);
-    return (passed) ? resolve(value) : reject(message || defaultMessage);
+    if (passed) {
+      return resolve(value);
+    }
+    throw message || defaultMessage;
   };
 }

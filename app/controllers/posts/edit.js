@@ -26,16 +26,16 @@ export default Ember.ObjectController.extend(BufferedProxy, {
         return true;
       } else {
         return required(value)
-        .then(function(value){
-          return ajax('/posts/' + value);
-        })
-        .then(function(){
-          // item exists, therefore this code is not availabe
-          return Em.RSVP.reject('Code already exists');
-        }, function() {
-          // doesn't exist, therefore available
-          return Em.RSVP.resolve(value);
-        });
+          .then(function(value){
+            return ajax('/posts/' + value);
+          })
+          .then(function(){
+            // item exists, therefore this code is not availabe
+            return Em.RSVP.reject('Code already exists');
+          }, function() {
+            // doesn't exist, therefore available
+            return Em.RSVP.resolve(value);
+          });
       }
     }
   })

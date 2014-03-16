@@ -15,4 +15,6 @@ if (Em.get(window, 'ENV.FIXTURES')) {
   ic.ajax.FIXTURES = Em.get(window, 'ENV.FIXTURES');
 }
 
+Ember.LOG_BINDINGS = true;
+
 export default App;
