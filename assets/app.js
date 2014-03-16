@@ -62,7 +62,7 @@ define("appkit/controllers/posts/edit",
       isValid: Em.computed.alias('validation.isPassed'),
       isNotValid: Em.computed.not('isValid'),
 
-      bufferable: ['title', 'code'],
+      bufferable: ['title', 'slug'],
 
       validation: validation('buffer', {
         title: function(value) {
@@ -72,19 +72,21 @@ define("appkit/controllers/posts/edit",
             return required(value);
           }
         },
-        code: function(value) {
+        slug: function(value) {
           if (Em.isNone(value)) {
             // buffer doesn't have value therefore value is unchanged, assume valid
             return true;
           } else {
-            return required(value).then(function(value){
-              return ajax('/posts/' + value).then(function(){
-                // item exists, therefore this code is not availabe
-                return Em.RSVP.reject('Code already exists');
-              }, function() {
-                // doesn't exist, therefore available
-                return Em.RSVP.resolve(value);
-              });
+            return required(value)
+            .then(function(value){
+              return ajax('/posts/' + value);
+            })
+            .then(function(){
+              // item exists, therefore this code is not availabe
+              return Em.RSVP.reject('Code already exists');
+            }, function() {
+              // doesn't exist, therefore available
+              return Em.RSVP.resolve(value);
             });
           }
         }
@@ -202,8 +204,8 @@ define("appkit/router",
       this.route('component-test');
       this.route('helper-test');
       this.resource('posts', function() {
-        this.route('post', {path: ':code'});
-        this.route('edit', {path: ':code/edit'});
+        this.route('post', {path: ':slug'});
+        this.route('edit', {path: ':slug/edit'});
       });
     });
 
@@ -476,10 +478,6 @@ define("appkit/utils/validation",
     var get = Em.get;
 
     function validationComputedPropertyMacro (target, rules, options) {
-
-      options = Em.merge({
-        spacing: 200 // throttle spacing
-      }, options)
 
       // create array of dependent keys
       var dependentKeys = prefixKeys(target, rules);
