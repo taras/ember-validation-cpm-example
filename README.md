@@ -2,10 +2,11 @@
 
 **This is an experiment. Feedback is welcome**
 
-This is an example of the [validation computed property macro](/app/utils/validation.js).
-It allows to do sync and async validations. It focuses on being expressive and Promise compatible.
-It was designed to work with an ObjectController and is BufferedProxy compatible. Validation rules can
-be chained together with ```.then()```. You can return a custom error message with ```Em.RSVP.reject('your message')```
+This is an [example](http://taras.github.io/ember-validation-cpm-example/#/posts/hello-world/edit) of the
+[validation computed property macro](/app/utils/validation.js). It allows to do sync and async validations.
+It focuses on being expressive and Promise compatible. It was designed to work with an ObjectController and
+is BufferedProxy compatible. Validation rules can be chained together with ```.then()```.
+You can return a custom error message with ```Em.RSVP.reject('your message')```
 
 Validation rules take value as an argument and return a Promise that resolves to a value. If the Promise is rejected,
 the validation will fail and reason will be the error. You ```.then()``` Promise to modify the result of the validation.
@@ -50,7 +51,6 @@ export default Ember.ObjectController.extend({
 The computed property evaluates to the result of the validation. The above example would produce
 
 ```javascript
-
 controller.setProperties({
   title: 'Hello World',
   slug: ''
@@ -58,17 +58,15 @@ controller.setProperties({
 
 console.log(controller.get('validation'));
 {
-  validation: {
-    title: {
-      isPassed: true,
-      value: 'Hello World'
-    },
-    slug: {
-      isPassed: false,
-      error: 'Slug can not be empty.'
-    },
-    isPassed: false
-  }
+  title: {
+    isPassed: true,
+    value: 'Hello World'
+  },
+  slug: {
+    isPassed: false,
+    error: 'Slug can not be empty.'
+  },
+  isPassed: false
 }
 ```
 

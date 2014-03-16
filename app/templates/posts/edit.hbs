@@ -1,13 +1,13 @@
 <ul>
   <li>
     <label {{bind-attr for="titleField.elementId"}}>Title</label>
-    {{input value=title viewName="titleField"}}
+    {{input value=title viewName="titleField"}} <small>Remove value to see validation</small>
     {{#if validation.title.error}}<p class="error">{{validation.title.error}}</p>{{/if}}
   </li>
   <li>
-    <label {{bind-attr for="codeField.elementId"}}>Code</label>
-    {{input value=code viewName="codeField"}}
-    {{#if validation.code.error}}<p class="error">{{validation.code.error}}</p>{{/if}}
+    <label {{bind-attr for="slugField.elementId"}}>Slug</label>
+    {{input value=slug viewName="slugField"}} <small>enter <em>validation-is-hard</em> to see ajax validation</small>
+    {{#if validation.slug.error}}<p class="error">{{validation.slug.error}}</p>{{/if}}
   </li>
   <ul>
 </ul>
