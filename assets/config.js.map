@@ -1,7 +1,14 @@
 {
   "version": 3,
   "file": "config.js",
-  "sources": [],
+  "sources": [
+    "tmp/result/config/environment.js",
+    "tmp/result/config/environments/development.js"
+  ],
   "names": [],
-  "mappings": ""
+  "mappings": "AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;A;ACTA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;A",
+  "sourcesContent": [
+    "// Put general configuration here. This file is included\n// in both production and development BEFORE Ember is\n// loaded.\n//\n// For example to enable a feature on a canary build you\n// might do:\n//\n// window.ENV = {FEATURES: {'with-controller': true}};\n\nwindow.ENV = {};\n",
+    "// Put your development configuration here.\n//\n// This is useful when using a separate API\n// endpoint in development than in production.\n//\n// window.ENV.public_key = '123456'\n\nwindow.ENV.FIXTURES = {\n  \"/posts\" : {\n    response: [\n      {id: \"1\", title: \"Hello World\", slug: \"hello-world\"},\n      {id: \"2\", title: \"Why is validation so hard?\", slug: \"validation-is-hard\"},\n      {id: \"3\", title: \"Let's get to the bottom of this\", slug: \"figure-it-out\"}\n    ],\n    textStatus: 'success',\n    jqXHR: {}\n  },\n  \"/posts/hello-world\": {\n    response: {id: \"1\", title: \"Hello World\", slug: \"hello-world\"},\n    textStatus: 'success',\n    jqXHR: {}\n  },\n  \"/posts/validation-is-hard\": {\n    response: {id: \"2\", title: \"Why is validation so hard?\", slug: \"validation-is-hard\"},\n    textStatus: 'success',\n    jqXHR: {}\n  },\n  \"/posts/figure-it-out\": {\n    response: {id: \"3\", title: \"Let's get to the bottom of this\", slug: \"figure-it-out\"},\n\n  }\n};\n"
+  ]
 }
