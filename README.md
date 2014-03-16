@@ -32,13 +32,14 @@ export default Ember.ObjectController.extend({
     slug: function(value) {
       return required(value, "Slug can not be empty.")
         .then(function(value){
-          return ajax('/posts/' + value).then(function(){
+          return ajax('/posts/' + value);
+          })
+        .then(function(){
             // request returns data, therefore object exists and slug is not available
             return Em.RSVP.reject("Slug already taken, choose another.");
-            }, function(){
-              // returns an error, so it must be available
-              return Em.RSVP.resolve(value);
-              })
+          }, function(){
+            // returns an error, so it must be available
+            return Em.RSVP.resolve(value);
           });
     }
   })
