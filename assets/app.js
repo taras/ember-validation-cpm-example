@@ -282,7 +282,7 @@ define("appkit/routes/posts/post",
 
     __exports__["default"] = Ember.Route.extend({
       model: function(params) {
-        return ajax('/posts/'+params.code);
+        return ajax('/posts/'+params.slug);
       }
     });
   });
